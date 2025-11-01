@@ -1,0 +1,43 @@
+# configs/default.yaml
+random_seed: 1337
+device: "cuda:0"
+embeddings:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  normalize: true
+graph:
+  top_k: 128
+  min_sim: 0.2
+  ann:
+    index: "HNSW"
+    M: 32
+    efConstruction: 200
+    efSearch: 64
+graphon:
+  usvt:
+    eta: 0.01
+    sigma_estimator: "bulk"
+  sas:
+    enabled: true
+    tv_lambda: 0.1
+difficulty_weights:
+  alpha: 0.5  # rarity
+  beta: 0.3  # boundary entropy
+  gamma: 0.2 # content complexity
+curriculum:
+  pacing: "linear"
+  delta_start_pct: 0.10
+  delta_end_pct: 0.90
+  replay_pct: 0.10
+training:
+  epochs: 6
+  batch_size: 64
+  lr: 1.0e-4
+  optimizer: "adamw"
+  warmup_steps: 500
+  lr_schedule: "cosine"
+evaluation:
+  attribution:
+    jaccard: 0.6
+    cos_sim: 0.85
+    window: 50
+  bootstrap: 1000
